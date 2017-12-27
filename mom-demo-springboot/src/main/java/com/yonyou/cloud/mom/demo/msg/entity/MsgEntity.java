@@ -22,6 +22,7 @@ public class MsgEntity {
 	}
 
 	@Id
+	@Column(length = 100)
 	private String msgKey;
 	
 	@Column(columnDefinition = "mediumtext")

@@ -1,5 +1,7 @@
 package com.yonyou.cloud.mom.demo.msg.entity;
 
+import javax.persistence.Basic;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
@@ -14,7 +16,9 @@ import org.hibernate.annotations.DynamicUpdate;
 public class BizEntity {
 	
 	@Id
+	@Column(length = 100)
 	private String id;
+	@Basic
 	private String name;
 
 	public String getId() {
