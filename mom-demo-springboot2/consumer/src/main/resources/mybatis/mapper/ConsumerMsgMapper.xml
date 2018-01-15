@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.ben.mom.consumer.mapper.ConsumerMsgMapper" >
+  <resultMap id="BaseResultMap" type="org.ben.mom.consumer.entity.ConsumerMsg" >
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="msg_key" property="msgKey" jdbcType="VARCHAR" />
+    <result column="biz_class_name" property="bizClassName" jdbcType="VARCHAR" />
+    <result column="consumer_class_name" property="consumerClassName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="exchange" property="exchange" jdbcType="VARCHAR" />
+    <result column="info_msg" property="infoMsg" jdbcType="VARCHAR" />
+    <result column="retry_count" property="retryCount" jdbcType="INTEGER" />
+    <result column="router_key" property="routerKey" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="msg_content" property="msgContent" jdbcType="LONGVARCHAR" />
+  </resultMap>
+</mapper>
