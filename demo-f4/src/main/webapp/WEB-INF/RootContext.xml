@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+	http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/mvc   http://www.springframework.org/schema/mvc/spring-mvc.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+	http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<mvc:default-servlet-handler />
+	<mvc:annotation-driven />
+	<aop:aspectj-autoproxy />
+	<context:component-scan base-package="com.yonyou.gtmc.demo_f4" />
+ 	<!-- <context:component-scan base-package="com.yonyou.cloud.*" /> -->
+	
+	<bean
+		class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+		<property name="viewResolvers">
+			<list>
+				<bean class="org.springframework.web.servlet.view.BeanNameViewResolver" />
+				<bean
+					class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+					<property name="prefix" value="/WEB-INF/page/" />
+				</bean>
+			</list>
+		</property>
+		<property name="defaultViews">
+			<list>
+				<!-- JSON View -->
+				<bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView" />
+				
+				<!-- XML View -->
+				<bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<property name="marshaller">
+						<bean class="org.springframework.oxm.xstream.XStreamMarshaller" />
+					</property>
+				</bean>
+			</list>
+		</property>
+	</bean>
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:f4config.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+    <!-- Oracle -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName">
+			<value>${f4.ds.driver}</value>
+		</property>
+		<property name="url">
+			<value>${f4.ds.url}</value>
+		</property>
+		<property name="username">
+			<value>${f4.ds.username}</value>
+		</property>
+		<property name="password">
+			<value>${f4.ds.password}</value>
+		</property>
+	</bean>
+
+	<bean id="DbTxnManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+
+	<!-- <bean class="com.yonyou.f4.mvc.service.TenantService"/>
+	<bean class="com.yonyou.f4.mvc.service.DBService"/> -->
+	<bean id="DBService" class="com.yonyou.f4.common.database.impl.DBServiceImpl"/>
+	<bean id="TenantService" class="com.yonyou.f4.common.database.impl.TenantServiceImpl" depends-on="DBService"/>
+	<!-- Transaction AOP configuration -->
+	
+	<bean id="tm" class="com.yonyou.f4.mvc.aop.TransactionManagerAround" />
+	<aop:config>
+		<aop:aspect ref="tm">
+			<aop:around method="around" pointcut="@within(com.yonyou.f4.mvc.annotation.Txn) || @within(com.yonyou.f4.mvc.annotation.Conn) || @within(com.yonyou.f4.mvc.annotation.TxnConn) || 
+			                                      @annotation(com.yonyou.f4.mvc.annotation.Txn) || @annotation(com.yonyou.f4.mvc.annotation.Conn) || @annotation(com.yonyou.f4.mvc.annotation.TxnConn)" />
+ 		</aop:aspect>
+	</aop:config>
+  	<bean id="ca" class="com.yonyou.cloud.mom.client.consumer.ConsumerAspect" />
+<!--  <aop:config>
+		<aop:aspect ref="ca">
+			<aop:around method="aroundAdvice" pointcut="@within(com.yonyou.cloud.mom.client.consumer.MomConsumer) || @annotation(com.yonyou.cloud.mom.client.consumer.MomConsumer)" />
+ 		</aop:aspect>
+	</aop:config> -->
+	
+	   	<import resource="classpath*:application-mq.xml" /> 
+	
+</beans>
