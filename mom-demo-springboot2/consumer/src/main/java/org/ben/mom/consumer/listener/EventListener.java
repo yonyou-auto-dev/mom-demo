@@ -32,7 +32,7 @@ public class EventListener extends AbstractConsumerListener<LoginEvent>{
 //		user.setUserName(data.getUserName()+"a");
 //		tmUserMapper.updateByExampleSelective(user, example);
 //		int i = 1/0;
-		userService.updateUser(data.getUserName());
+//		userService.updateUser(data.getUserName());
 	}
 
 	

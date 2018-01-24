@@ -4,7 +4,6 @@ import org.ben.mom.consumer.listener.EventListener;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitOperations;
@@ -13,35 +12,49 @@ import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import com.yonyou.cloud.mom.client.impl.MqSenderDefaultImpl;
 
+import org.springframework.amqp.core.TopicExchange;
+
 @Configuration
 public class MqConfig {
-	@Bean
-	public Queue pointsListenLoginQueue2() {
-		return new Queue("consumer-b", true); // 队列持久
-	}
+//	@Bean
+//	public Queue pointsListenLoginQueue2() {
+//		return new Queue("consumer-b", true); // 队列持久
+//	}
 
-	@Bean
-	public FanoutExchange eventExchange() {
-		return new FanoutExchange("ben_login");
-	}
-
+//	@Bean
+//	public FanoutExchange eventExchange() {
+//		return new FanoutExchange("ben_login");
+//	}
+//
+//	
+//	@Bean
+//	public Binding PointsBindingLogin2() {
+//		return BindingBuilder.bind(pointsListenLoginQueue2()).to(eventExchange());
+////				.with("queue-key");
+//	}
 	
 	@Bean
-	public Binding PointsBindingLogin2() {
-		return BindingBuilder.bind(pointsListenLoginQueue2()).to(eventExchange());
-//				.with("queue-key");
+	public Queue TopQueue() {
+		return new Queue("ddbiz", true); // 队列持久
+	}
+	
+	@Bean
+	public TopicExchange topicExchange() {
+		return new TopicExchange("topExchange");
 	}
 
-	
+	@Bean
+	public Binding topBinding() {
+		return BindingBuilder.bind(TopQueue()).to(topicExchange()).with("*.biz");
+	}
 	
 	@Bean
 	public SimpleMessageListenerContainer messageContainer2(ConnectionFactory connectionFactory) {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
-		container.setQueues(pointsListenLoginQueue2());
+		container.setQueues(TopQueue());
 		container.setExposeListenerChannel(true);
 		container.setMaxConcurrentConsumers(1);
 		container.setConcurrentConsumers(1);

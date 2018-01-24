@@ -84,5 +84,14 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 	public List<ConsumerDto> selectReConsumerList(Integer status) {
 		return null;
 	}
+	
+	@Override
+	 public Boolean resetErrorCount(String msgKey) {
+		ConsumerMsg msg = new ConsumerMsg();
+		msg.setMsgKey(msgKey);
+		msg.setRetryCount(0);
+		consumerMsgMapper.updateByPrimaryKeySelective(msg);
+		return true;
+	}
 
 }
