@@ -25,11 +25,7 @@ public class UserService extends BaseService<Mapper<TmUser>, TmUser>{
 		
 		LoginEvent event = new LoginEvent();
 		event.setUserName(userName);
-		
-		mqSender.send("ben_login", "login", event);
-		
-		
-		
+		mqSender.send("topExchange", "gogo.biz", event); 
 		return true;
 	}
 }

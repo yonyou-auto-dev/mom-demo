@@ -70,6 +70,16 @@ public class ProducerCallbackImpl implements ProducerStoreDBCallback{
 		return returnList;
 	}
 
+	@Override
+	public Boolean resetErrorCount(String msgKey) { 
+		
+		ProducerMsg msg = new ProducerMsg();
+		msg.setMsgKey(msgKey);
+		msg.setRetryCount(0);
+		msgService.updateSelectiveById(msg);
+		return true;
+	}
+
 	
 
 }
