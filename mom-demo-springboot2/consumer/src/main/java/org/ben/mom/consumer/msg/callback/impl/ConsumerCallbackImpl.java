@@ -1,10 +1,13 @@
 package org.ben.mom.consumer.msg.callback.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.ben.mom.consumer.entity.ConsumerMsg;
 import org.ben.mom.consumer.mapper.ConsumerMsgMapper;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -82,7 +85,16 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 
 	@Override
 	public List<ConsumerDto> selectReConsumerList(Integer status) {
-		return null;
+		List<ConsumerDto> dtolist=new ArrayList<>();
+		ConsumerMsg msg = new ConsumerMsg();
+		msg.setStatus(status);
+		List<ConsumerMsg> list=consumerMsgMapper.select(msg);
+		for(ConsumerMsg msgs:list) {
+			ConsumerDto dto=new ConsumerDto();
+			BeanUtils.copyProperties( msgs,dto);  
+			dtolist.add(dto);
+		}
+		return dtolist;
 	}
 	
 	@Override
