@@ -16,7 +16,7 @@ public class EventListener extends AbstractConsumerListener<LoginEvent>{
 	@Autowired
 	TmUserMapper tmUserMapper;
 
-	protected void handleMessage(LoginEvent data) {
+	public void handleMessage(LoginEvent data) {
 		logger.info("处理登录事件");
 //		Example example = new Example(TmUser.class);
 //		example.createCriteria().andEqualTo("userName", data.getUserName());
@@ -25,6 +25,8 @@ public class EventListener extends AbstractConsumerListener<LoginEvent>{
 //		tmUserMapper.updateByExampleSelective(user, example);
 //		int i = 1/0;
 //		userService.updateUser(data.getUserName());
+		
+		logger.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
 	}
 
 	

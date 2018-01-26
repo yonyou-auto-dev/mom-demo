@@ -13,7 +13,7 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.yonyou.cloud.mom.client.impl.MqSenderDefaultImpl;
+import com.yonyou.cloud.mom.client.producer.MqSenderDefaultImpl;
 
 import org.springframework.amqp.core.TopicExchange;
 

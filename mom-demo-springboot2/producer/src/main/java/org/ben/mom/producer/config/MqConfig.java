@@ -4,7 +4,8 @@ import org.springframework.amqp.rabbit.core.RabbitOperations;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.yonyou.cloud.mom.client.impl.MqSenderDefaultImpl;
+import com.yonyou.cloud.mom.client.producer.MqSenderDefaultImpl;
+
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
 

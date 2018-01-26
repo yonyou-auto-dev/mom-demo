@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.ben.mom.producer.entity.ProducerMsg;
 import org.ben.mom.producer.service.MsgService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import com.yonyou.cloud.mom.core.dto.ProducerDto;
 import com.yonyou.cloud.mom.core.store.callback.ProducerStoreDBCallback;
 import com.yonyou.cloud.mom.core.store.callback.exception.StoreDBCallbackException;
@@ -47,6 +47,8 @@ public class ProducerCallbackImpl implements ProducerStoreDBCallback{
 		ProducerMsg msg = new ProducerMsg();
 		msg.setMsgKey(msgKey);
 		msg.setStatus(2);
+		msg.setInfoMsg(infoMsg);
+		msg.setRouterKey(routerKey);
 		msgService.updateSelectiveById(msg);		
 	}
 
@@ -78,6 +80,15 @@ public class ProducerCallbackImpl implements ProducerStoreDBCallback{
 		msg.setRetryCount(0);
 		msgService.updateSelectiveById(msg);
 		return true;
+	}
+
+	@Override
+	public ProducerDto selectResendList(String Msgkey) { 
+			ProducerMsg msg = msgService.selectById(Msgkey); 
+			 ProducerDto dto=new ProducerDto();
+			 BeanUtils.copyProperties( msg,dto);
+			return dto;
+		 
 	}
 
 	

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.StringUtils;
 import org.ben.mom.consumer.entity.ConsumerMsg;
 import org.ben.mom.consumer.mapper.ConsumerMsgMapper;
 import org.springframework.beans.BeanUtils;
@@ -95,6 +94,14 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 			dtolist.add(dto);
 		}
 		return dtolist;
+	}
+	
+	@Override
+	public ConsumerDto selectReConsumerList(String msgKey) {
+		ConsumerMsg msgs = consumerMsgMapper.selectByPrimaryKey(msgKey);
+		ConsumerDto dto = new ConsumerDto();
+		BeanUtils.copyProperties(msgs, dto);
+		return dto;
 	}
 	
 	@Override

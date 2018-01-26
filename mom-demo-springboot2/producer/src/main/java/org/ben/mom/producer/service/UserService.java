@@ -5,10 +5,8 @@ import org.ben.mom.producer.msg.event.LoginEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.yonyou.cloud.common.service.BaseService;
-import com.yonyou.cloud.mom.client.MqSender;
-
+import com.yonyou.cloud.mom.client.producer.MqSender;
 import tk.mybatis.mapper.common.Mapper;
 
 @Service
