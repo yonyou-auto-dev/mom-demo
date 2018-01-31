@@ -26,7 +26,7 @@ public class EventListener extends AbstractConsumerListener<LoginEvent>{
 //		int i = 1/0;
 //		userService.updateUser(data.getUserName());
 		
-		logger.info("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		 logger.info("+++++++++++++++++++++++++++++这是第一个监听者+++++++++++++++++EventListener");
 	}
 
 	

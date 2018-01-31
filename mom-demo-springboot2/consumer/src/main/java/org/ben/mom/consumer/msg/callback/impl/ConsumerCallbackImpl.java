@@ -22,17 +22,9 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 	@Autowired
 	ConsumerMsgMapper consumerMsgMapper;
 	
+
 	@Override
 	public boolean exist(String msgKey) throws StoreDBCallbackException {
-		if(consumerMsgMapper.selectByPrimaryKey(msgKey)!=null) {
-			return true;
-		}
-
-		return false;
-	}
-
-	@Override
-	public boolean isProcessing(String msgKey) throws StoreDBCallbackException {
 		ConsumerMsg msg = new ConsumerMsg();
 		msg.setMsgKey(msgKey);
 		msg.setStatus(103);
@@ -44,7 +36,7 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 	}
 
 	@Override
-	public void updateMsgProcessing(String msgKey, String data, String exchange, String routerKey,
+	public void saveMsgData(String msgKey, String data, String exchange, String routerKey,
 			String consumerClassName, String bizClassName) throws StoreDBCallbackException {
 		ConsumerMsg msg = new ConsumerMsg();
 		msg.setMsgKey(msgKey);
@@ -97,20 +89,11 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 	}
 	
 	@Override
-	public ConsumerDto selectReConsumerList(String msgKey) {
+	public ConsumerDto getReConsumerDto(String msgKey) {
 		ConsumerMsg msgs = consumerMsgMapper.selectByPrimaryKey(msgKey);
 		ConsumerDto dto = new ConsumerDto();
 		BeanUtils.copyProperties(msgs, dto);
 		return dto;
-	}
-	
-	@Override
-	 public Boolean resetErrorCount(String msgKey) {
-		ConsumerMsg msg = new ConsumerMsg();
-		msg.setMsgKey(msgKey);
-		msg.setRetryCount(0);
-		consumerMsgMapper.updateByPrimaryKeySelective(msg);
-		return true;
 	}
 
 }

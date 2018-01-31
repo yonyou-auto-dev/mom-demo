@@ -73,17 +73,7 @@ public class ProducerCallbackImpl implements ProducerStoreDBCallback{
 	}
 
 	@Override
-	public Boolean resetErrorCount(String msgKey) { 
-		
-		ProducerMsg msg = new ProducerMsg();
-		msg.setMsgKey(msgKey);
-		msg.setRetryCount(0);
-		msgService.updateSelectiveById(msg);
-		return true;
-	}
-
-	@Override
-	public ProducerDto selectResendList(String Msgkey) { 
+	public ProducerDto getResendProducerDto(String Msgkey) { 
 			ProducerMsg msg = msgService.selectById(Msgkey); 
 			 ProducerDto dto=new ProducerDto();
 			 BeanUtils.copyProperties( msg,dto);

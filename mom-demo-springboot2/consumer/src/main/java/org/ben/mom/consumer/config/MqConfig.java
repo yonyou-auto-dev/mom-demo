@@ -1,6 +1,7 @@
 package org.ben.mom.consumer.config;
 
 import org.ben.mom.consumer.listener.EventListener;
+import org.ben.mom.consumer.listener.LoginEventListener;
 import org.springframework.amqp.core.AcknowledgeMode;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -35,20 +36,46 @@ public class MqConfig {
 //		return BindingBuilder.bind(pointsListenLoginQueue2()).to(eventExchange());
 ////				.with("queue-key");
 //	}
+
+	
+	
+	@Bean
+	public Queue TopQueue1() {
+		return new Queue("sss-ddbizsss", true); // 队列持久
+	}
+	
+ 
+	@Bean
+	public Binding topBinding1() {
+		return BindingBuilder.bind(TopQueue1()).to(topicExchange()).with("*.bizsss");
+	}
+	
+	@Bean
+	public SimpleMessageListenerContainer messageContainer1(ConnectionFactory connectionFactory,LoginEventListener loginListener) {
+		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer(connectionFactory);
+		container.setQueues(TopQueue1());
+		container.setExposeListenerChannel(true);
+		container.setMaxConcurrentConsumers(1);
+		container.setConcurrentConsumers(1);
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL); // 设置确认模式手工确认
+		container.setMessageListener(loginListener);
+		container.setMaxConcurrentConsumers(10);//设置最大消费者数量 防止大批量涌入
+		return container;
+	}
 	
 	@Bean
 	public Queue TopQueue() {
-		return new Queue("ddbiz", true); // 队列持久
+		return new Queue("ddbizsss", true); // 队列持久
 	}
 	
 	@Bean
 	public TopicExchange topicExchange() {
-		return new TopicExchange("topExchange");
+		return new TopicExchange("topExchangesss");
 	}
 
 	@Bean
 	public Binding topBinding() {
-		return BindingBuilder.bind(TopQueue()).to(topicExchange()).with("*.biz");
+		return BindingBuilder.bind(TopQueue()).to(topicExchange()).with("*.bizsss");
 	}
 	
 	@Bean
