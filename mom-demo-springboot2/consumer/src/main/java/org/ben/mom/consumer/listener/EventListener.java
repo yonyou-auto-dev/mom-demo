@@ -25,7 +25,13 @@ public class EventListener extends AbstractConsumerListener<LoginEvent>{
 //		tmUserMapper.updateByExampleSelective(user, example);
 //		int i = 1/0;
 //		userService.updateUser(data.getUserName());
-		
+		try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			logger.error("error {}",e);
+			e.printStackTrace();
+		}
 		 logger.info("+++++++++++++++++++++++++++++这是第一个监听者+++++++++++++++++EventListener");
 	}
 

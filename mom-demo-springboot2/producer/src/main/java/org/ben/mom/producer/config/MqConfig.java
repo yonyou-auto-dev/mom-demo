@@ -5,6 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.yonyou.cloud.mom.client.producer.MqSenderDefaultImpl;
 
+import org.springframework.amqp.core.FanoutExchange;
 import org.springframework.amqp.rabbit.core.RabbitOperations;
 import org.springframework.amqp.support.converter.JsonMessageConverter;
 import org.springframework.amqp.support.converter.MessageConverter;
@@ -24,5 +25,11 @@ public class MqConfig {
 		public MessageConverter messageConverter() {
 			JsonMessageConverter jsonMessageConverter = new JsonMessageConverter();
 			return jsonMessageConverter;
+		}
+		
+		
+		@Bean
+		public FanoutExchange fanOutExchange() {
+			return new FanoutExchange("topExchangesss");
 		}
 }
