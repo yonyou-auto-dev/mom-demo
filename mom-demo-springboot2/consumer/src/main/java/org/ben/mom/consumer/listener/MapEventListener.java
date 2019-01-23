@@ -1,5 +1,5 @@
 package org.ben.mom.consumer.listener;
-import java.util.Random;
+import java.util.HashMap;
 
 import org.ben.mom.consumer.mapper.TmUserMapper;
 import org.ben.mom.consumer.service.UserService;
@@ -13,7 +13,7 @@ import com.xiaoleilu.hutool.util.RandomUtil;
 import com.yonyou.cloud.mom.client.consumer.AbstractConsumerListener;
 
 @Component
-public class EventListener extends AbstractConsumerListener<LoginEvent>{
+public class MapEventListener extends AbstractConsumerListener<HashMap<String, Object>>{
 	
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
 	
@@ -23,8 +23,8 @@ public class EventListener extends AbstractConsumerListener<LoginEvent>{
 	@Autowired
 	TmUserMapper tmUserMapper;
 
-	public void handleMessage(LoginEvent data) throws Exception {
-		logger.info("处理登录事件");
+	public void handleMessage(HashMap<String,Object> data) throws Exception {
+		logger.info("处理登录事件,类型是MAP");
 //		Example example = new Example(TmUser.class);
 //		example.createCriteria().andEqualTo("userName", data.getUserName());
 //		TmUser user = new TmUser();
@@ -40,8 +40,7 @@ public class EventListener extends AbstractConsumerListener<LoginEvent>{
 			throw new Exception("int 》5 ");
 		}
 		
-		
-		userService.updateUser(data.getUserName());
+		userService.updateUser(data.get("userName").toString());
 		
 		 logger.info("+++++++++++++++++++++++++++++这是第一个监听者+++++++++++++++++EventListener");
 	}

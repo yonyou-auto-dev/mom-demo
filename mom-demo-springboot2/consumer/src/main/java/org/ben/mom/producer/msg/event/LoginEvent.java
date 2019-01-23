@@ -11,5 +11,12 @@ public class LoginEvent {
 	}
 
 	private String userName;
+
+	@Override
+	public String toString() {
+		return "LoginEvent [userName=" + userName + "]";
+	}
+	
+	
 	
 }

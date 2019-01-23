@@ -1,14 +1,13 @@
 package org.ben.mom.producer.config;
 
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.rabbit.core.RabbitOperations;
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.yonyou.cloud.mom.client.producer.MqSenderDefaultImpl;
-
-import org.springframework.amqp.core.FanoutExchange;
-import org.springframework.amqp.rabbit.core.RabbitOperations;
-import org.springframework.amqp.support.converter.JsonMessageConverter;
-import org.springframework.amqp.support.converter.MessageConverter;
 
 @Configuration
 public class MqConfig {
@@ -23,7 +22,7 @@ public class MqConfig {
 
 		@Bean
 		public MessageConverter messageConverter() {
-			JsonMessageConverter jsonMessageConverter = new JsonMessageConverter();
+			Jackson2JsonMessageConverter jsonMessageConverter = new Jackson2JsonMessageConverter();
 			return jsonMessageConverter;
 		}
 		
@@ -31,5 +30,10 @@ public class MqConfig {
 		@Bean
 		public FanoutExchange fanOutExchange() {
 			return new FanoutExchange("topExchangesss");
+		}
+		
+		@Bean
+		public FanoutExchange fanOutExchange2() {
+			return new FanoutExchange("mapExchange");
 		}
 }

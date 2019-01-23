@@ -36,6 +36,5 @@ public class UserService extends BaseService<Mapper<TmUser>, TmUser>{
 		TmUser user = new TmUser();
 		user.setUserName(userName+"a");
 		tmUserMapper.updateByExampleSelective(user, example);
-		int i = 1/0;
 	}
 }

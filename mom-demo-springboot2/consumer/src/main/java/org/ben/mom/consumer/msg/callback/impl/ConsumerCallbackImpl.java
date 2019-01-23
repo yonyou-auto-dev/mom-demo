@@ -62,6 +62,7 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 		ConsumerMsg msg = new ConsumerMsg();
 		msg.setMsgKey(msgKey);
 		msg.setStatus(101);
+		msg.setUpdateTime(new Date());
 		consumerMsgMapper.updateByPrimaryKeySelective(msg);
 	}
 
@@ -70,6 +71,7 @@ public class ConsumerCallbackImpl implements ConsumerStoreDbCallback{
 		ConsumerMsg msg = new ConsumerMsg();
 		msg.setMsgKey(msgKey);
 		msg.setStatus(102);
+		msg.setUpdateTime(new Date());
 		consumerMsgMapper.updateByPrimaryKeySelective(msg);
 		
 	}
